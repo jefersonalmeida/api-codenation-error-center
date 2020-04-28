@@ -29,7 +29,7 @@ public class UserControllerTest {
     private static final UUID ID = UUID.fromString("53e2a983-5b29-4527-8f59-e64c3b756f15");
     private static final String EMAIL = "email@teste.com";
     private static final String PASSWORD = "123456";
-    private static final String URL_REGISTER = "/auth/register";
+    private static final String URL_REGISTER = "/api/auth/register";
 
     @MockBean
     UserService service;

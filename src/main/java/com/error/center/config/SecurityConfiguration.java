@@ -58,9 +58,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/configuration/security",
-                        "/auth/**",
-                        "/webjars/**",
-                        "/health"
+                        "/api/auth/**",
+                        "/api/health",
+                        "/webjars/**"
                 ).permitAll()
                 .anyRequest().authenticated();
 
