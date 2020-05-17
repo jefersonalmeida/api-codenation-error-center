@@ -1,6 +1,6 @@
 package com.error.center.config;
 
-import com.error.center.service.UserDetailsService;
+import com.error.center.service.impl.UserDetailsServiceImpl;
 import com.error.center.util.jwt.JwtAuthenticationEntryPoint;
 import com.error.center.util.jwt.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -58,7 +58,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/configuration/security",
-                        "/api/auth/**",
+                        "/api/auth/register",
+                        "/api/auth/login",
                         "/api/health",
                         "/webjars/**"
                 ).permitAll()

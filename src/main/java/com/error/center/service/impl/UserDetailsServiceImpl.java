@@ -1,6 +1,7 @@
-package com.error.center.service;
+package com.error.center.service.impl;
 
 import com.error.center.entity.User;
+import com.error.center.service.UserService;
 import com.error.center.util.jwt.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 
 @Service
-public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
+public class UserDetailsServiceImpl implements org.springframework.security.core.userdetails.UserDetailsService {
 
     @Autowired
     private UserService userService;

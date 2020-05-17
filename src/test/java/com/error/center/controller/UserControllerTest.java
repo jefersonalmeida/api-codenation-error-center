@@ -30,6 +30,8 @@ public class UserControllerTest {
     private static final String EMAIL = "email@teste.com";
     private static final String PASSWORD = "123456";
     private static final String URL_REGISTER = "/api/auth/register";
+    private static final String URL_LOGIN = "/api/auth/login";
+    private static final String URL_PROFILE = "/api/auth/profile";
 
     @MockBean
     UserService service;
@@ -57,8 +59,6 @@ public class UserControllerTest {
 
     @Test
     public void testSaveInvalidUser() throws Exception {
-        BDDMockito.given(service.save(Mockito.any(User.class))).willReturn(getMockUser());
-
         mvc.perform(MockMvcRequestBuilders.post(URL_REGISTER)
                 .content(getJsonPayload(ID, "email", PASSWORD))
                 .contentType(MediaType.APPLICATION_JSON)
@@ -69,11 +69,18 @@ public class UserControllerTest {
         ;
     }
 
+    @Test
+    public void testProfileUnauthorized() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get(URL_PROFILE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+        ;
+    }
+
     public User getMockUser() {
-        User u = new User();
-        u.setId(ID);
-        u.setEmail(EMAIL);
-        u.setPassword(PASSWORD);
+        User u = new User(ID, EMAIL, PASSWORD);
         u.setRole(RoleEnum.ROLE_ADMIN);
         return u;
     }
