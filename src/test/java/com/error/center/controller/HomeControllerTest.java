@@ -13,9 +13,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @ActiveProfiles(value = "test")
 @AutoConfigureMockMvc
-public class HealthControllerTest {
+public class HomeControllerTest {
 
-    private static final String URL = "/api/health";
+    private static final String URL = "/health";
 
     @Autowired
     MockMvc mvc;
