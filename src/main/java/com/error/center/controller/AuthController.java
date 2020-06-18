@@ -5,9 +5,9 @@ import com.error.center.dto.TokenDTO;
 import com.error.center.dto.UserDTO;
 import com.error.center.entity.User;
 import com.error.center.response.Response;
-import com.error.center.service.impl.UserDetailsServiceImpl;
 import com.error.center.service.UserService;
-import com.error.center.util.Util;
+import com.error.center.service.impl.UserDetailsServiceImpl;
+import com.error.center.util.enums.Role;
 import com.error.center.util.jwt.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -43,7 +46,7 @@ public class AuthController {
 
     @PostMapping(path = "register")
     public ResponseEntity<Response<UserDTO>> store(@Valid @RequestBody UserDTO dto, BindingResult result) {
-
+        dto.setRole(Role.ROLE_USER.toString());
         Optional<User> exists = this.service.findByEmail(dto.getEmail());
         if (exists.isPresent()) {
             result.addError(new ObjectError("User.email", dto.getEmail() + " já está cadastrado"));
@@ -54,6 +57,7 @@ public class AuthController {
             result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
             return ResponseEntity.badRequest().body(response);
         }
+
 
         User user = service.save(dto.toEntity());
         response.setData(user.toDTO());
@@ -80,19 +84,5 @@ public class AuthController {
         response.setData(new TokenDTO(token));
 
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping(path = "profile")
-    public ResponseEntity<Response<UserDTO>> profile() {
-        Response<UserDTO> response = new Response<>();
-
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> user = service.findByEmail(authentication.getName());
-        user.ifPresent(value -> response.setData(value.toDTO()));*/
-
-
-        response.setData(Util.getUserDTO());
-
-        return ResponseEntity.ok().body(response);
     }
 }

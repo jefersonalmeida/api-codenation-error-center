@@ -58,10 +58,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/configuration/security",
-                        "/api/auth/register",
-                        "/api/auth/login",
-                        "/api/health",
-                        "/webjars/**"
+                        "/configuration/ui",
+                        "/auth/register",
+                        "/auth/login",
+                        "/health",
+                        "/webjars/**",
+                        "/v3/api-docs/**",
+                        "/v3/api-docs/swagger-config",
+                        "/v3/api-docs.yml",
+                        "/swagger-resources/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
                 ).permitAll()
                 .anyRequest().authenticated();
 

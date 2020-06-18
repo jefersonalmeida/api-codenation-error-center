@@ -1,7 +1,7 @@
 package com.error.center.util.jwt;
 
 import com.error.center.entity.User;
-import com.error.center.util.enums.RoleEnum;
+import com.error.center.util.enums.Role;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +16,7 @@ public class JwtUserFactory {
         return new JwtUser(user.getId(), user.getEmail(), user.getPassword(), createGrantedAuthorities(user.getRole()));
     }
 
-    private static List<GrantedAuthority> createGrantedAuthorities(RoleEnum role) {
+    private static List<GrantedAuthority> createGrantedAuthorities(Role role) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.toString()));
         return authorities;

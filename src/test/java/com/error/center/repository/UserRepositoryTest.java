@@ -1,8 +1,10 @@
 package com.error.center.repository;
 
 import com.error.center.entity.User;
-import org.junit.jupiter.api.*;
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -13,6 +15,7 @@ import java.util.Optional;
 @ActiveProfiles(value = "test")
 public class UserRepositoryTest {
 
+    private static final String NAME = "Test";
     private static final String EMAIL = "test@email.com";
     private static final String PASSWORD = "123456";
 
@@ -21,7 +24,7 @@ public class UserRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        repository.save(new User(null, EMAIL, PASSWORD));
+        repository.save(new User(null, NAME, EMAIL, PASSWORD));
     }
 
     @AfterEach
@@ -31,7 +34,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testSave() {
-        User u = new User(null, "1" + EMAIL, PASSWORD);
+        User u = new User(null, NAME, "1" + EMAIL, PASSWORD);
         User response = repository.save(u);
         Assertions.assertNotNull(response);
         Assertions.assertEquals(u.getId(), response.getId());
