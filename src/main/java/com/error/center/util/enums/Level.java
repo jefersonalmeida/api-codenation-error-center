@@ -1,17 +1,19 @@
 package com.error.center.util.enums;
 
-public enum TypeEnum {
-    EN("ENTRADA"),
-    SD("SAÍDA");
+public enum Level {
+    error("error"),
+    warning("warning"),
+    info("info");
+
 
     private final String value;
 
-    TypeEnum(String value) {
+    Level(String value) {
         this.value = value;
     }
 
-    public static TypeEnum getEnum(String value) {
-        for (TypeEnum t : values()) {
+    public static Level getEnum(String value) {
+        for (Level t : values()) {
             if (value.equals(t.getValue())) return t;
         }
         return null;
