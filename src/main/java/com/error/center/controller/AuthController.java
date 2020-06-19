@@ -4,13 +4,17 @@ import com.error.center.dto.LoginDTO;
 import com.error.center.dto.TokenDTO;
 import com.error.center.dto.UserDTO;
 import com.error.center.entity.User;
+import com.error.center.mapper.UserMapper;
 import com.error.center.response.Response;
 import com.error.center.service.UserService;
 import com.error.center.service.impl.UserDetailsServiceImpl;
 import com.error.center.util.enums.Role;
 import com.error.center.util.jwt.JwtToken;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,34 +24,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "auth")
+@AllArgsConstructor
+@RequestMapping(path = "auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@Tag(name = "Auth", description = "Recurso para gestão de usuários.")
 public class AuthController {
 
-    @Autowired
-    private UserService service;
+    private final UserService userService;
+    private final AuthenticationManager authManager;
+    private final JwtToken jwtToken;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final UserMapper userMapper = UserMapper.INSTANCE;
 
-    @Autowired
-    private AuthenticationManager authManager;
-
-    @Autowired
-    private JwtToken jwtToken;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
+    @Operation(summary = "Cadastro de usuário", description = "Cadastra um usuário.")
     @PostMapping(path = "register")
     public ResponseEntity<Response<UserDTO>> store(@Valid @RequestBody UserDTO dto, BindingResult result) {
         dto.setRole(Role.ROLE_USER.toString());
-        Optional<User> exists = this.service.findByEmail(dto.getEmail());
+        Optional<User> exists = this.userService.findByEmail(dto.getEmail());
         if (exists.isPresent()) {
             result.addError(new ObjectError("User.email", dto.getEmail() + " já está cadastrado"));
         }
@@ -59,15 +57,14 @@ public class AuthController {
         }
 
 
-        User user = service.save(dto.toEntity());
-        response.setData(user.toDTO());
+        User user = userService.save(userMapper.toEntity(dto));
+        response.setData(userMapper.toDTO(user));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(summary = "Autenticação", description = "Autentica o usuário.")
     @PostMapping(path = "login")
-    public ResponseEntity<Response<TokenDTO>> login(
-            @Valid @RequestBody LoginDTO loginDto, BindingResult result)
-            throws AuthenticationException {
+    public ResponseEntity<Response<TokenDTO>> login(@Valid @RequestBody LoginDTO dto, BindingResult result) throws AuthenticationException {
         Response<TokenDTO> response = new Response<>();
 
         if (result.hasErrors()) {
@@ -76,13 +73,22 @@ public class AuthController {
         }
 
         Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getEmail(), loginDto.getPassword()));
+                dto.getEmail(), dto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(loginDto.getEmail());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(dto.getEmail());
         String token = jwtToken.getToken(userDetails);
         response.setData(new TokenDTO(token));
 
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Perfil", description = "Retorna os dados do usuário autenticado.")
+    @GetMapping(path = "profile")
+    public ResponseEntity<Response<UserDTO>> profile() {
+        Response<UserDTO> response = new Response<>();
+        Optional<User> user = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        response.setData(userMapper.toDTO(user.orElse(null)));
+        return ResponseEntity.ok().body(response);
     }
 }

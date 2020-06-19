@@ -41,7 +41,7 @@ public class UserControllerTest {
     private static final String PASSWORD = "123456";
     private static final String URL_REGISTER = "/auth/register";
     private static final String URL_LOGIN = "/auth/login";
-    private static final String URL_PROFILE = "/profile";
+    private static final String URL_PROFILE = "/auth/profile";
 
     @MockBean
     UserService userService;
@@ -87,7 +87,7 @@ public class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0]").value("must be a well-formed email address"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.errors[0]").value("O email precisa ser válido"))
         ;
     }
 

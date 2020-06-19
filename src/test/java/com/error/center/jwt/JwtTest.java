@@ -19,15 +19,6 @@ public class JwtTest {
     private static final String EMAIL = "test@email.com";
     private static final String PASSWORD = "123456";
 
-    /*@MockBean
-    UserRepository repository;
-
-    @BeforeEach
-    public void setUp() {
-        BDDMockito.given(repository.findByEmailEquals(Mockito.anyString())).willReturn(Optional.of(new User()));
-        BDDMockito.given(repository.save(Mockito.any(User.class))).willReturn(getMockUser());
-    }*/
-
     @Test
     public void testJwtUser() {
         JwtUser response = JwtUserFactory.create(getMockUser());
