@@ -2,6 +2,7 @@ package com.error.center.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -10,6 +11,7 @@ public class LoginDTO {
 
     @NotNull(message = "Informe um email")
     @NotEmpty(message = "Informe um email")
+    @Email(message = "O email precisa ser válido")
     private String email;
 
     @NotNull(message = "Informe uma senha")

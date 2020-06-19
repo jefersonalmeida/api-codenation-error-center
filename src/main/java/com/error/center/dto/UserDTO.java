@@ -1,55 +1,40 @@
 package com.error.center.dto;
 
-import com.error.center.entity.User;
-import com.error.center.util.BCrypt;
-import com.error.center.util.enums.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
     private UUID id;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "O nome é obrigatório")
+    @NotEmpty(message = "O nome é obrigatório")
     private String name;
 
-    @NotNull
-    @NotEmpty
-    @Email
+    @NotNull(message = "O email é obrigatório")
+    @NotEmpty(message = "O email é obrigatório")
+    @Email(message = "O email precisa ser válido")
     private String email;
 
-    @NotEmpty
-    @NotNull
-    @Size(min = 6)
+    @NotEmpty(message = "O email é obrigatório")
+    @NotNull(message = "O email é obrigatório")
+    @Size(min = 6, max = 50, message = "A senha precisa ter ao menos 6 caracteres e no máximo 50")
     private String password;
 
-    // @NotNull(message = "Informe um grupo de acesso")
-    // @Pattern(regexp = "^(ROLE_ADMIN|ROLE_USER)$", message = "Para o grupo somente são aceitos os valores ROLE_ADMIN ou ROLE_USER")
-    private String role = Role.ROLE_USER.toString();
-
-    private LocalDateTime created;
-
-    private LocalDateTime updated;
-
-    public User toEntity() {
-        User u = new User();
-        u.setId(this.getId());
-        u.setName(this.getName());
-        u.setEmail(this.getEmail());
-        u.setPassword(BCrypt.getHash(this.getPassword()));
-        u.setCreated(this.getCreated());
-        u.setUpdated(this.getUpdated());
-        u.setRole(Role.valueOf(this.getRole()));
-        return u;
-    }
+    private String role;
+    private Date created_at;
+    private Date updated_at;
 }

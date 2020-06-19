@@ -1,16 +1,13 @@
 package com.error.center.entity;
 
 import com.error.center.util.enums.Level;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -18,48 +15,43 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Event implements Serializable {
+@Builder
+@EqualsAndHashCode(callSuper = false)
+@EntityListeners(AuditingEntityListener.class)
+public class Event extends Auditable<String> implements Serializable {
 
     private static final long serialVersionUID = -9065556819769322761L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     @NotNull
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Level level;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     @NotNull()
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @NotNull()
     private String log;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     @NotNull()
     private String origin;
 
     @Column(nullable = false)
     @NotNull()
-    private LocalDateTime date;
+    private Date date;
 
     @Column(nullable = false)
     @NotNull()
-    private Integer quantity = 0;
+    private Integer quantity;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime created;
-
-    @UpdateTimestamp
-    @Column(nullable = false)
-    private LocalDateTime updated;
+    public void increment() {
+        this.quantity++;
+    }
 }
