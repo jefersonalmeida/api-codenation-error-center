@@ -7,23 +7,9 @@ on:
     branches: [ master ]
 
 jobs:
-  compile:
-    runs-on: ubuntu-latest
-    name: Run Java compile
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-      - name: Compile code
-        run: ./gradlew compileJava
   test:
     runs-on: ubuntu-latest
     name: Run Java tests
-    needs: compile
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -32,12 +18,14 @@ jobs:
           java-version: 1.8
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Run check
+        run: ./gradlew check
       - name: Run unit tests
         run: ./gradlew test
   build:
     runs-on: ubuntu-latest
     name: Run gradlew build
-    needs: test
+    needs: [test]
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -51,11 +39,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Run deploy to HEROKU
-    needs: build
+    needs: [test, build]
     steps:
       - uses: actions/checkout@v2
-      - name: Add remote heroku and deploy
+      - name: Run fech origin
+        run: git fetch --unshallow origin
+      - name: Add remote heroku
         run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
       - name: Deploy to Heroku
-        run: git push heroku master
+        run: git push heroku HEAD:master -f
 
