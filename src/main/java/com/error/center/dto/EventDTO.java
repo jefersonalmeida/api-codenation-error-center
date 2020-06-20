@@ -42,10 +42,9 @@ public class EventDTO {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonSerialize(using = DateSerializer.class)
     @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
-    // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
-    private Integer quantity = 1;
 
+    private Integer quantity = 1;
     private String createdBy;
     private Date createdAt;
     private String lastModifiedBy;

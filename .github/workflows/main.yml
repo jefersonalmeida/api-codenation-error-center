@@ -54,10 +54,8 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v2
-      - name: Add remote heroku
-        run: |
-          git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+      - name: Add remote heroku and deploy
+        run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
       - name: Deploy to Heroku
-        run: |
-          git push heroku HEAD:master -f
+        run: git push heroku master
 
