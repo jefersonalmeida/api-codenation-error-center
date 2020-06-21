@@ -3,7 +3,13 @@
 # Codenation - Central de Erros
 Projeto prático do AceleraDev Java Online da CodeNation
 
-**Jeferson Almeida** - *me@jeferson.net.br*
+## Author
+
+- **Jeferson Almeida**
+    - Github - [jefersonalmeida](https://github.com/jefersonalmeida)
+    - Linkedin - [jefersonalmeida](https://www.linkedin.com/in/jefersonalmeida/)
+    - Twitter - [____jeferson](https://twitter.com/____jeferson)
+    - Email - [me@jeferson.net.br](mailto://me@jeferson.net.br)
 
 ## Apoiadores
 
@@ -16,7 +22,6 @@ Abaixo estão os requisitos desta API, o time terá total liberdade para tomar a
 
 ### API
 
-- [Backend API](https://codenation-error-center.herokuapp.com)
 - [Backend DOCS](https://codenation-error-center.herokuapp.com/swagger-ui.html)
 - [Frontend DEMO](https://codenation-java.jeferson.net.br)
 
