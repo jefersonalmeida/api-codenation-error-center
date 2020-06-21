@@ -41,7 +41,7 @@ public class UserControllerTest {
     private static final String PASSWORD = "123456";
     private static final String URL_REGISTER = "/auth/register";
     private static final String URL_LOGIN = "/auth/login";
-    private static final String URL_PROFILE = "/auth/profile";
+    private static final String URL_PROFILE = "/auth/whoami";
 
     @MockBean
     UserService userService;

@@ -49,6 +49,5 @@ public class CenterApplication {
                         .name("Authorization")
                 ))
                 .addSecurityItem(new SecurityRequirement().addList("TOKEN", Arrays.asList("read", "write")));
-
     }
 }

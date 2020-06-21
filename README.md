@@ -18,6 +18,7 @@ Abaixo estão os requisitos desta API, o time terá total liberdade para tomar a
 
 - [Backend API](https://codenation-error-center.herokuapp.com)
 - [Backend DOCS](https://codenation-error-center.herokuapp.com/swagger-ui.html)
+- [Frontend DEMO](https://codenation-java.jeferson.net.br)
 
 ### Tecnologia
 - Java *(8)*
@@ -25,8 +26,9 @@ Abaixo estão os requisitos desta API, o time terá total liberdade para tomar a
 - Gradle
 - H2 *(Testes)*
 - PostgreSQL *(Produção)*
+- JWT
 - GitHub
-- Swagger
+- Springdoc
 - Heroku
 
 **Premissas**;

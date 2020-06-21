@@ -18,15 +18,11 @@ public interface UserMapper {
 
     @Mappings({
             @Mapping(source = "password", target = "password", ignore = true),
-            @Mapping(source = "createdAt", target = "created_at"),
-            @Mapping(source = "updatedAt", target = "updated_at"),
     })
     UserDTO toDTO(User dto);
 
     @Mappings({
             @Mapping(source = "password", target = "password", qualifiedByName = "GenerateHash"),
-            @Mapping(source = "created_at", target = "createdAt"),
-            @Mapping(source = "updated_at", target = "updatedAt"),
     })
     User toEntity(UserDTO entity);
 

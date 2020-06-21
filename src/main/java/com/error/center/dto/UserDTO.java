@@ -1,6 +1,7 @@
 package com.error.center.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,8 @@ public class UserDTO {
     private String password;
 
     private String role;
-    private Date created_at;
-    private Date updated_at;
+    @JsonProperty("created_at")
+    private Date createdAt;
+    @JsonProperty("updated_at")
+    private Date updatedAt;
 }

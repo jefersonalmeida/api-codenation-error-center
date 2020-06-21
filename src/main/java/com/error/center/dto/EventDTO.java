@@ -3,6 +3,7 @@ package com.error.center.dto;
 import com.error.center.util.enums.Level;
 import com.error.center.validators.enums.EnumValidator;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
@@ -45,8 +46,16 @@ public class EventDTO {
     private Date date;
 
     private Integer quantity = 1;
+
+    @JsonProperty("created_by")
     private String createdBy;
+
+    @JsonProperty("created_at")
     private Date createdAt;
+
+    @JsonProperty("last_modified_by")
     private String lastModifiedBy;
+
+    @JsonProperty("last_modified_at")
     private Date lastModifiedAt;
 }

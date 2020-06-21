@@ -9,7 +9,7 @@ import com.error.center.response.Response;
 import com.error.center.service.EventService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -25,27 +25,26 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "events", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Events", description = "Recurso para gestão de logs.")
 public class EventController {
 
-    @Autowired
     private final EventMapper eventMapper = EventMapper.INSTANCE;
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
 
     @Operation(summary = "Cadastrar evento de log", description = "Cria ou acrescenta evento de log.")
     @PostMapping
-    public ResponseEntity<Response<EventDTO>> store(@Valid @RequestBody EventDTO dto, BindingResult result) {
+    public ResponseEntity<Response<EventListDTO>> store(@Valid @RequestBody EventDTO dto, BindingResult result) {
 
-        Response<EventDTO> response = new Response<>();
+        Response<EventListDTO> response = new Response<>();
         if (result.hasErrors()) {
             result.getAllErrors().forEach(e -> response.getErrors().add(e.getDefaultMessage()));
             return ResponseEntity.badRequest().body(response);
         }
 
         Event event = eventService.save(eventMapper.toEntity(dto));
-        response.setData(eventMapper.toDTO(event));
+        response.setData(eventMapper.toListDTO(event));
         return ResponseEntity.status(event.getQuantity() <= 1 ? HttpStatus.CREATED : HttpStatus.OK).body(response);
     }
 

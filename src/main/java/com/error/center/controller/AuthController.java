@@ -78,17 +78,21 @@ public class AuthController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(dto.getEmail());
         String token = jwtToken.getToken(userDetails);
-        response.setData(new TokenDTO(token));
+
+        Optional<User> user = userService.findByEmail(dto.getEmail());
+
+        response.setData(new TokenDTO(token, userMapper.toDTO(user.orElse(null))));
 
         return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "Perfil", description = "Retorna os dados do usuário autenticado.")
-    @GetMapping(path = "profile")
-    public ResponseEntity<Response<UserDTO>> profile() {
+    @GetMapping(path = "whoami")
+    public ResponseEntity<Response<UserDTO>> whoami() {
         Response<UserDTO> response = new Response<>();
         Optional<User> user = userService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         response.setData(userMapper.toDTO(user.orElse(null)));
+        System.out.println(userMapper.toDTO(user.orElse(null)));
         return ResponseEntity.ok().body(response);
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Optional;
@@ -45,8 +44,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<Event> search(
-            @Valid
-                    String search,
+            String search,
             String order,
             String sort,
             int page) {
@@ -93,7 +91,8 @@ public class EventServiceImpl implements EventService {
 
     @NotNull
     private String checkOrder(String order) {
-        return VALIDATION_REGEX_ORDER.matches(order.toLowerCase()) ? order : "date";
+        return order.toLowerCase().matches(VALIDATION_REGEX_ORDER) ? order : "date";
+        // return VALIDATION_REGEX_ORDER.matches(order.toLowerCase()) ? order : "date";
     }
 
     @Override
