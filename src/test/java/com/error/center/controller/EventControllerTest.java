@@ -65,7 +65,7 @@ public class EventControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.id").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.level").value(LEVEL))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.description").value(DESCRIPTION))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.data.log").value(LOG))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.log").doesNotExist())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.origin").value(ORIGIN))
         ;
     }

@@ -4,6 +4,7 @@ import com.error.center.dto.LoginDTO;
 import com.error.center.dto.TokenDTO;
 import com.error.center.dto.UserDTO;
 import com.error.center.entity.User;
+import com.error.center.mapper.UserMapper;
 import com.error.center.service.UserService;
 import com.error.center.service.impl.UserDetailsServiceImpl;
 import com.error.center.util.enums.Role;
@@ -45,6 +46,9 @@ public class UserControllerTest {
 
     @MockBean
     UserService userService;
+
+    @Autowired
+    UserMapper userMapper = UserMapper.INSTANCE;
 
     @MockBean
     UserDetailsServiceImpl userDetailsService;
@@ -124,7 +128,7 @@ public class UserControllerTest {
     public void testLogin() throws Exception {
 
         JwtUser jwtUser = JwtUserFactory.create(getMockUser());
-        TokenDTO tokenDTO = new TokenDTO("BLA BLA BLA");
+        TokenDTO tokenDTO = new TokenDTO("BLA BLA BLA", userMapper.toDTO(getMockUser()));
         tokenDTO.setToken("BEARER TOKEN");
         BDDMockito.given(jwtToken.getToken(userDetailsService.loadUserByUsername(jwtUser.getUsername()))).willReturn(tokenDTO.getToken());
 
