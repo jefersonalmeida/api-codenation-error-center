@@ -22,7 +22,6 @@ import java.util.UUID;
 public class EventServiceImpl implements EventService {
 
     private static final String VALIDATION_REGEX_ORDER = "^(level|description|log|origin|date|quantity)$";
-    private static final String VALIDATION_REGEX_SORT = "^(ASC|DESC)$";
 
     @Autowired
     private EventRepository eventRepository;
@@ -33,7 +32,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event save(Event object) {
 
-        Optional<Event> exists = this.checkExists(object);
+        Optional<Event> exists = this.findDuplicate(object);
         if (exists.isPresent()) {
             Event eventUpdated = exists.get();
             eventUpdated.increment();
@@ -92,7 +91,6 @@ public class EventServiceImpl implements EventService {
     @NotNull
     private String checkOrder(String order) {
         return order.toLowerCase().matches(VALIDATION_REGEX_ORDER) ? order : "date";
-        // return VALIDATION_REGEX_ORDER.matches(order.toLowerCase()) ? order : "date";
     }
 
     @Override
@@ -102,16 +100,12 @@ public class EventServiceImpl implements EventService {
 
     public Page<Event> findAll() {
         int page = 0;
-        PageRequest pageRequest = PageRequest.of(
-                page,
-                itemsPerPage,
-                Sort.Direction.ASC,
-                "name");
+        PageRequest pageRequest = PageRequest.of(page, itemsPerPage, Sort.Direction.ASC, "name");
         return new PageImpl<>(eventRepository.findAll(), pageRequest, itemsPerPage);
     }
 
     @Override
-    public Optional<Event> checkExists(Event entity) {
-        return eventRepository.findByLevelEqualsAndOriginEqualsAndDateEquals(entity.getLevel(), entity.getOrigin(), entity.getDate());
+    public Optional<Event> findDuplicate(Event entity) {
+        return eventRepository.findByLevelAndDescriptionIgnoreCaseAndLogIgnoreCaseAndOriginIgnoreCase(entity.getLevel(), entity.getDescription(), entity.getLog(), entity.getOrigin());
     }
 }

@@ -8,8 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface EventService {
-    Optional<Event> checkExists(Event entity);
-
     Event save(Event object);
 
     Page<Event> search(String search, String order, String sort, int page);
@@ -19,4 +17,6 @@ public interface EventService {
     Page<Event> searchByDate(String search, Date init, Date end, String order, String sort, int page);
 
     Optional<Event> find(UUID id);
+
+    Optional<Event> findDuplicate(Event object);
 }

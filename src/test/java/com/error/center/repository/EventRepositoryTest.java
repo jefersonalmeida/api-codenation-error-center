@@ -71,7 +71,7 @@ public class EventRepositoryTest {
     @Test
     @WithMockUser
     public void testCheckExists() {
-        Optional<Event> response = repository.findByLevelEqualsAndOriginEqualsAndDateEquals(LEVEL, ORIGIN, DATE);
+        Optional<Event> response = repository.findByLevelAndDescriptionIgnoreCaseAndLogIgnoreCaseAndOriginIgnoreCase(LEVEL, DESCRIPTION, LOG, ORIGIN);
         Assertions.assertTrue(response.isPresent());
         Assertions.assertEquals(response.get().getOrigin(), ORIGIN);
         Assertions.assertEquals(response.get().getLevel(), LEVEL);

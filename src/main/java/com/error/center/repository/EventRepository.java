@@ -9,14 +9,18 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface EventRepository extends JpaRepository<Event, UUID>, JpaSpecificationExecutor<Event> {
 
-    Optional<Event> findByLevelEqualsAndOriginEqualsAndDateEquals(@NotNull Level level, @NotNull() String origin, @NotNull() Date date);
+    Optional<Event> findByLevelAndDescriptionIgnoreCaseAndLogIgnoreCaseAndOriginIgnoreCase(
+            @Param("level") Level level,
+            @Param("description") String description,
+            @Param("log") String log,
+            @Param("origin") String origin
+    );
 
     @Query("select e from Event e " +
             "where lower(e.description) like %:search% " +

@@ -42,7 +42,7 @@ public class EventServiceTest {
     public void setUp() {
         BDDMockito.given(repository.findById(ID)).willReturn(Optional.of(getMockEvent()));
         BDDMockito.given(repository.save(Mockito.any(Event.class))).willReturn(getMockEvent());
-        BDDMockito.given(repository.findByLevelEqualsAndOriginEqualsAndDateEquals(Mockito.any(Level.class), Mockito.anyString(), Mockito.any(Date.class))).willReturn(Optional.of(getMockEvent()));
+        BDDMockito.given(repository.findByLevelAndDescriptionIgnoreCaseAndLogIgnoreCaseAndOriginIgnoreCase(Mockito.any(Level.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).willReturn(Optional.of(getMockEvent()));
     }
 
     @Test
@@ -138,7 +138,7 @@ public class EventServiceTest {
     @Test
     public void testSaveIncrement() {
 
-        Optional<Event> event1 = service.checkExists(getMockEvent());
+        Optional<Event> event1 = service.findDuplicate(getMockEvent());
         event1.ifPresent(event -> service.save(event));
 
         Assertions.assertNotNull(event1.get());

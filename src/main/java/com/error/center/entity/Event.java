@@ -28,7 +28,7 @@ public class Event extends Auditable<String> implements Serializable {
 
     @Column(nullable = false, length = 20)
     @NotNull
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Level level;
 
     @Column(nullable = false, length = 100)
