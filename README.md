@@ -20,10 +20,12 @@ Em projetos modernos é cada vez mais comum o uso de arquiteturas baseadas em se
 
 Abaixo estão os requisitos desta API, o time terá total liberdade para tomar as decisões técnicas e de arquitetura da API, desde que atendam os requisitos abaixo.
 
-### API
+### API - Links
 
-- [Backend DOCS](https://codenation-error-center.herokuapp.com/swagger-ui.html)
-- [Frontend DEMO](https://codenation-java.jeferson.net.br)
+- [DOCS - Backend](https://codenation-error-center.herokuapp.com/swagger-ui.html)
+- [DEMO - Frontend](https://codenation-java.jeferson.net.br)
+- [Vídeo 1 - Apresentação do projeto prático](https://www.youtube.com/watch?v=Ir1i61zt1eY)
+- [Vídeo 2 - Apresentação do projeto prático](https://www.youtube.com/watch?v=N8adRfDmHuM)
 
 ### Tecnologia
 - Java *(8)*
