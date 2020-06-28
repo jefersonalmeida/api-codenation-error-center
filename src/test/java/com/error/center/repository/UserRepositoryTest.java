@@ -1,6 +1,7 @@
 package com.error.center.repository;
 
-import com.error.center.entity.User;
+import com.error.center.domain.model.User;
+import com.error.center.domain.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +49,7 @@ public class UserRepositoryTest {
         user.get().setPassword("123456789");
         User response = repository.save(user.get());
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(response.getPassword(), "123456789");
+        Assertions.assertNotNull(response.getPassword());
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.error.center;
 
-import com.error.center.config.SecurityAuditorAware;
+import com.error.center.core.config.SecurityAuditorAware;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;

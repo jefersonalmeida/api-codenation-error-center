@@ -1,7 +1,8 @@
 package com.error.center.repository;
 
-import com.error.center.entity.Event;
-import com.error.center.util.enums.Level;
+import com.error.center.domain.enums.Level;
+import com.error.center.domain.model.Event;
+import com.error.center.domain.repository.EventRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

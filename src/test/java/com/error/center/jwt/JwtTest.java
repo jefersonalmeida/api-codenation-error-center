@@ -1,9 +1,9 @@
 package com.error.center.jwt;
 
-import com.error.center.entity.User;
-import com.error.center.util.enums.Role;
-import com.error.center.util.jwt.JwtUser;
-import com.error.center.util.jwt.JwtUserFactory;
+import com.error.center.core.jwt.JwtUser;
+import com.error.center.core.jwt.JwtUserFactory;
+import com.error.center.domain.enums.Role;
+import com.error.center.domain.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +24,7 @@ public class JwtTest {
         JwtUser response = JwtUserFactory.create(getMockUser());
         Assertions.assertNotNull(response);
         Assertions.assertEquals(response.getUsername(), EMAIL);
-        Assertions.assertEquals(response.getPassword(), PASSWORD);
+        Assertions.assertNotNull(response.getPassword());
     }
 
     private User getMockUser() {
