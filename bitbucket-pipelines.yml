@@ -1,0 +1,30 @@
+# This is a sample build configuration for Java (Gradle).
+# Check our guides at https://confluence.atlassian.com/x/zd-5Mw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: openjdk:8
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Build
+          caches:
+            - gradle
+          script:
+            - chmod +x gradlew
+            - ./gradlew clean build
+      - step:
+          name: Test
+          caches:
+            - gradle
+          script:
+            - ./gradlew test
+      - step:
+          name: Deploy
+          deployment: production
+          # trigger: manual  # Uncomment to make this a manual deployment.
+          script:
+            - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git
+            - git push heroku HEAD:master -f
